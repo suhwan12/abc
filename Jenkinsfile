@@ -28,7 +28,7 @@ pipeline{
         }
         stage('Deploy'){
             steps{
-		sh 'scp ${env.WORKSPACE}/target/*.war ${params.TOMCAT_LOGIN_USER}@${params.TOMCAT_IP}:${params.TOMCAT_WEBAPP_DIR}'
+		sh "scp ${env.WORKSPACE}/target/*.war ${params.TOMCAT_LOGIN_USER}@${params.TOMCAT_IP}:${params.TOMCAT_WEBAPP_DIR}"
             }
         }
     }
