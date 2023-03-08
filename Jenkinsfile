@@ -1,9 +1,6 @@
 pipeline{
     agent none
     
-    triggers{
-	pollSCM '* * * * *'
-    }
 
     parameters {
   	string name: 'IMAGE_NAME' , defaultValue: 'hello-world'
@@ -47,6 +44,7 @@ pipeline{
 	    steps{
 	        withDockerRegistry(credentialsId: 'docker-hub-token', url: 'https://index.docker.io/v1/') {
 		sh "docker image push ${params.IMAGE_REGISTRY_ACCOUNT}/${params.IMAGE_NAME}"
+		
 		}
 	    }
 	}
