@@ -14,13 +14,18 @@ spec:
 '''
 	}
     }
+    triggers {
+      pollSCM '* * * * *'
+      }
+
     stages{
     	stage('checkout'){
-	agent any
-		steps{
+	  steps{
+	    container('maven'){
 		  git branch: 'main', url:'https://github.com/suhwan12/abc.git'
 		  }
 		}
+	}
 	stage('maven build project'){
 		steps{
 		  container('maven'){
@@ -33,24 +38,6 @@ spec:
 			container('maven'){
 				sh 'mvn test'
 				}
-		}
-	}
-	stage('build image'){
-	agent any
-		steps{
-			sh 'docker image build -t free-world .'
-			}
-		}
-	stage('tagging'){
-	agent any
-		steps{
-		sh 'docker image tag free-world suhwan11/free-world'
-		}
-	}
-	stage('publish'){
-		agent any
-		steps{
-		echo 'hello'
 		}
 	}
 	}
