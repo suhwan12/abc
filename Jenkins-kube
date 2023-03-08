@@ -17,7 +17,7 @@ spec:
     volumeMounts:
     - name: registry-credentials
       mountPath: /kaniko/.docker
-  voluems:
+  volumes:
   - name: registry-credentials
     secret:
       secretName: regcred 
