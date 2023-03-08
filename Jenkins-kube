@@ -63,4 +63,7 @@ spec:
 	    --destination=suhwan11/hello-world:latest \
 	    --destination=suhwan11/hello-world:${env.BUILD_NUMBER}"
 	}
-}
+      }
+    }
+    }
+ }
