@@ -60,7 +60,7 @@ spec:
 	  container('kaniko'){
 	    sh "executor --dockerfile=Dockerfile \
 	    --context=dir://${env.WORKSPACE} \
-	    --destination=suhwan11/hello-world:latest
+	    --destination=suhwan11/hello-world:latest \
 	    --destination=suhwan11/hello-world:${env.BUILD_NUMBER}"
 	}
 }
