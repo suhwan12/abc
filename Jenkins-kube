@@ -1,0 +1,57 @@
+pipeline{
+	agent{
+		kubernetes{
+yaml '''
+apiVersion: v1
+kind: Pod
+spec:
+  containers:
+  - name: maven
+    image: maven:3--openjdk-8
+    command: ['sleep']
+    args: ['infinity']
+
+'''
+	}
+    }
+    stages{
+    	stage('checkout'){
+	agent any
+		steps{
+		  git branch: 'main', url:'https://github.com/suhwan12/abc.git'
+		  }
+		}
+	stage('maven build project'){
+		steps{
+		  container('maven'){
+		    sh 'mvn clean package -DskipTests=true'
+		    }
+		 }
+		}
+	stage('test maven project'){
+		steps{
+			container('maven'){
+				sh 'mvn test'
+				}
+		}
+	}
+	stage('build image'){
+	agent any
+		steps{
+			sh 'docker image build -t free-world .'
+			}
+		}
+	stage('tagging'){
+	agent any
+		steps{
+		sh 'docker image tag free-world suhwan11/free-world'
+		}
+	}
+	stage('publish'){
+		agent any
+		steps{
+		echo 'hello'
+		}
+	}
+	}
+}
