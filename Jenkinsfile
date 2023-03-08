@@ -36,14 +36,16 @@ pipeline{
 	stage('Tagging Docker Image'){
 	    agent any
 	    steps{
-		sh "docker image tag ${params.IMAGE_NAME} ${params.IMAGE_REGISTRY_ACCOUNT}/${params.IMAGE_NAME}"
+	    	sh "docker image tag ${params.IMAGE_NAME} ${params.IMAGE_REGISTRY_ACCOUNT}/${params.IMAGE_NAME}:${env.BUILD_NUMBER}"
+		sh "docker image tag ${params.IMAGE_NAME} ${params.IMAGE_REGISTRY_ACCOUNT}/${params.IMAGE_NAME}:latest"
 	    }
 	}
 	stage('publishing Docker Image'){
 	    agent any
 	    steps{
-	        withDockerRegistry(credentialsId: 'docker-hub-token', url: 'https://index.docker.io/v1/') {
-		sh "docker image push ${params.IMAGE_REGISTRY_ACCOUNT}/${params.IMAGE_NAME}"
+	        withDockerRegistry(credentialsId: 'docker-hub-token', url: 'https://index.docker.io/v1/') { 
+		sh "docker image push ${params.IMAGE_REGISTRY_ACCOUNT}/${params.IMAGE_NAME}:latest"
+		sh "docker image push ${params.IMAGE_REGISTRY_ACCOUNT}/${params.IMAGE_NAME}:${env.BUILD_NUMBER}"
 		
 		}
 	    }
