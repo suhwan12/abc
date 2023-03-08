@@ -10,6 +10,21 @@ spec:
     image: maven:3-openjdk-8
     command: ['sleep']
     args: ['infinity']
+  - name: kaniko 
+    image: gcr.io/kaniko-project/executor:debug
+    command: ['sleep']
+    args: ['infinity']
+    volumeMounts:
+    - name: registry-credentials
+      mountPath: /kaniko/.docker
+  voluems:
+  - name: registry-credentials
+    secret:
+      secretName: regcred 
+      items:
+      - key: .dockerconfigjson
+        path: config.json
+
 
 '''
 	}
@@ -40,5 +55,12 @@ spec:
 				}
 		}
 	}
+	stage('Build & Tag docker image'){
+	steps{
+	  container('kaniko'){
+	    sh "executor --dockerfile=Dockerfile \
+	    --context=dir://${env.WORKSPACE} \
+	    --destination=suhwan11/hello-world:latest
+	    --destination=suhwan11/hello-world:${env.BUILD_NUMBER}"
 	}
 }
