@@ -69,10 +69,10 @@ spec:
 	    steps{
 	      container('maven'){
 	        git branch: 'main', url:'https://github.com/suhwan12/hello-kube.git'
-		sh 'sed -i "s/images:.*/image: suhwan11\\/hello-world:${BUILD_NUMBER}/g" deployment.yaml'
+		sh 'sed -i "s/image:.*/image: suhwan11\\/hello-world:${BUILD_NUMBER}/g" deployment.yaml'
 		sh 'git add deployment.yaml'
-		sh 'git config --global user.name suhwan'
-		sh 'git config --global user.email xman@naver.com'
+		sh 'git config --global user.name suhwan12'
+		sh 'git config --global user.email xman0120@naver.com'
 		sh 'git commit -m "Jenkins Build Number - ${BUILD_NUMBER}"'
 		withCredentials([gitUsernamePassword(credentialsId: 'github-credential', gitToolName: 'Default')]) {
 			sh 'git push origin main'
