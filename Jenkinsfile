@@ -45,7 +45,9 @@ pipeline{
 	stage('publishing Docker Image'){
 	    agent any
 	    steps{
-		echo "pubish docker image"
+	        withDockerRegistry(credentialsId: 'docker-hub-token', url: 'https://index.docker.io/v1/') {
+		sh "docker image push ${params.IMAGE_REGISTRY_ACCOUNT}/${params.IMAGE_NAME}"
+		}
 	    }
 	}
 
